@@ -38,7 +38,7 @@ export default function Admin() {
   const fetchLinks = async () => {
     try {
       const startTime = Date.now();
-      const res = await fetch('http://localhost:5000/api/links');
+      const res = await fetch('https://for-venilla-bend.vercel.app/api/links');
       const data = await res.json();
       
       const elapsedTime = Date.now() - startTime;
@@ -63,7 +63,7 @@ export default function Admin() {
     if (!subject || !link) return;
 
     try {
-      const res = await fetch('http://localhost:5000/api/links', {
+      const res = await fetch('https://for-venilla-bend.vercel.app/api/links', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subject, link }),
@@ -72,7 +72,7 @@ export default function Admin() {
         setSubject('');
         setLink('');
         // Re-fetch without the long delay for better UX after action
-        const refreshRes = await fetch('http://localhost:5000/api/links');
+        const refreshRes = await fetch('https://for-venilla-bend.vercel.app/api/links');
         const refreshData = await refreshRes.json();
         setPublishedLinks(refreshData);
       }
@@ -83,11 +83,11 @@ export default function Admin() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/links/${id}`, {
+      const res = await fetch(`https://for-venilla-bend.vercel.app/api/links/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
-        const refreshRes = await fetch('http://localhost:5000/api/links');
+        const refreshRes = await fetch('https://for-venilla-bend.vercel.app/api/links');
         const refreshData = await refreshRes.json();
         setPublishedLinks(refreshData);
       }
