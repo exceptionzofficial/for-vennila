@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.DS_Store
+*.log
+.vscode/
+.idea/
+build/
+coverage/
+.temp/
+tmp/
+C:\Users\bhara\AppData\Local\npm-cache/
