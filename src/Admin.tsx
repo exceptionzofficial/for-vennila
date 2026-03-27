@@ -45,7 +45,12 @@ export default function Admin() {
       const remainingTime = Math.max(0, 3000 - elapsedTime);
       
       await new Promise(resolve => setTimeout(resolve, remainingTime));
-      setPublishedLinks(data);
+      if (Array.isArray(data)) {
+        setPublishedLinks(data);
+      } else {
+        console.error('Expected array for links, got:', data);
+        setPublishedLinks([]);
+      }
     } catch (err) {
       console.error('Failed to fetch links:', err);
       await new Promise(resolve => setTimeout(resolve, 3000));
@@ -74,7 +79,9 @@ export default function Admin() {
         // Re-fetch without the long delay for better UX after action
         const refreshRes = await fetch('https://for-venilla-bend.vercel.app/api/links');
         const refreshData = await refreshRes.json();
-        setPublishedLinks(refreshData);
+        if (Array.isArray(refreshData)) {
+          setPublishedLinks(refreshData);
+        }
       }
     } catch (err) {
       console.error('Failed to publish link:', err);
@@ -89,7 +96,9 @@ export default function Admin() {
       if (res.ok) {
         const refreshRes = await fetch('https://for-venilla-bend.vercel.app/api/links');
         const refreshData = await refreshRes.json();
-        setPublishedLinks(refreshData);
+        if (Array.isArray(refreshData)) {
+          setPublishedLinks(refreshData);
+        }
       }
     } catch (err) {
       console.error('Failed to delete portal:', err);
