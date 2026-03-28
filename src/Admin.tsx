@@ -29,6 +29,15 @@ interface PublishedLink {
   date: string;
 }
 
+const normalizeUrl = (url: string) => {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+};
+
 export default function Admin() {
   const [subject, setSubject] = useState('');
   const [link, setLink] = useState('');
@@ -71,7 +80,7 @@ export default function Admin() {
       const res = await fetch('https://for-venilla-bend.vercel.app/api/links', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, link }),
+        body: JSON.stringify({ subject, link: normalizeUrl(link) }),
       });
       if (res.ok) {
         setSubject('');
@@ -233,7 +242,7 @@ export default function Admin() {
                             </div>
                             <div className="flex gap-2">
                               <a 
-                                href={item.link} 
+                                href={normalizeUrl(item.link)} 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
                                 className="w-8 h-8 flex items-center justify-center bg-zinc-50 hover:bg-black hover:text-white transition-all"
